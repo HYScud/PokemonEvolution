@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe55d3faa4481f48a0a5757acf409a2, type: 3}
+  m_Name: Growl
+  m_EditorClassIdentifier: 
+  moveId: 3
+  moveName: "\u751F\u957F"
+  maxPP: 32
+  initialPP: 20
+  moveType: 1
+  moveDesc: "\u8BA9\u8EAB\u4F53\u4E00\u4E0B\u5B50\u957F\u5927\uFF0C\u4ECE\u800C\u63D0\u9AD8\u653B\u51FB\u548C\u7279\u653B\u3002\r\n"
+  power: 0
+  accuracy: 0
+  priority: 0
+  moveATKRangeEnum: 1
+  moveContactEnum: 0
+  moveTypeEnum: 2
+  bIsEffectByProtect: 0
+  bIsEffectByMagicCoat: 0
+  bIsEffectBySnatch: 1
+  bIsEffectByMirror: 0
+  bIsEffectByItem: 0

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2587339b9cfa6f54aa80975d93fd4ec8, type: 3}
+  m_Name: Umbreon
+  m_EditorClassIdentifier: 
+  pokemonId: 197
+  pokemonName: "\u6708\u4F0A\u5E03"
+  shinyType: 1
+  pokemonType1: 17
+  pokemonType2: 0
+  pokemonDesc: "\u6708\u4EAE\u4F0A\u5E03\u7684\u6BDB\u662F\u9ED1\u8272\u7684\uFF0C\u773C\u775B\u662F\u7EA2\u8272\u7684\uFF0C\u8EAB\u4E0A\u7684\u73AF\u72B6\u82B1\u7EB9\u662F\u8000\u773C\u7684\u91D1\u8272\u3002\u5F53\u8EAB\u4F53\u6C90\u6D74\u4E86\u6708\u4EAE\u6CE2\u52A8\u540E\uFF0C\u5708\u5708\u4E00\u6837\u7684\u82B1\u7EB9\u5C31\u4F1A\u5FAE\u5FAE\u53D1\u5149\uFF0C\u7EE7\u800C\u4F7F\u795E\u5947\u7684\u529B\u91CF\u89C9\u9192\u3002\r\n"
+  maleRatio: 1.25
+  catchRatio: 45
+  frontSprite: {fileID: 346003577, guid: c436df37627639448a7b72051c21a114, type: 3}
+  backSprite: {fileID: -844152507, guid: 33e5941f6f478fd43bea0343c8323e06, type: 3}
+  hp: 95
+  attack: 65
+  defence: 110
+  specialATK: 60
+  specialDef: 130
+  speed: 65
+  allLearnableMoves:
+  - learnableMoveBase: {fileID: 11400000, guid: 180c62ae9672e0d42a9c6a6ac80977e5, type: 2}
+    level: 0
+    moveLearnedTypeEnum: 0

@@ -1,0 +1,12 @@
+
+*.vsidx
+*.csproj
+*.bin
+/.vs/PokemonEvolution/v17
+.vsconfig
+*.meta
+/Temp
+PokemonEvolution.sln
+/obj/Debug
+/Logs
+/Library
