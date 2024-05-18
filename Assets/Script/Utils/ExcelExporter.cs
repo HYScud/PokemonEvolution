@@ -59,7 +59,7 @@ public class ReadExcel : MonoBehaviour
             {
                 int columns = result.Tables[0].Columns.Count;
                 int rows = result.Tables[0].Rows.Count;
-                PokemonTable.TypeChart = new float[columns - 1][];
+                PokemonTable.TypeChart = new float[rows - 1][];
                 for (int i = 1; i < rows; i++)
                 {
                     for (int j = 1; j < columns; j++)
@@ -67,7 +67,7 @@ public class ReadExcel : MonoBehaviour
                         var tempList = PokemonTable.TypeChart[i - 1];
                         if (tempList == null)
                         {
-                            tempList = new float[rows - 1];
+                            tempList = new float[columns - 1];
                             PokemonTable.TypeChart[i - 1] = tempList;
                         }
                         tempList[j - 1] = (float)Convert.ToSingle(result.Tables[0].Rows[i][j]);
@@ -94,7 +94,7 @@ public class ReadExcel : MonoBehaviour
             {
                 int columns = result.Tables[0].Columns.Count;
                 int rows = result.Tables[0].Rows.Count;
-                PokemonTable.Type_Color = new string[columns - 1][];
+                PokemonTable.Type_Color = new string[rows - 1][];
                 for (int i = 1; i < rows; i++)
                 {
                     for (int j = 1; j < columns; j++)
@@ -102,9 +102,10 @@ public class ReadExcel : MonoBehaviour
                         var tempList = PokemonTable.Type_Color[i - 1];
                         if (tempList == null)
                         {
-                            tempList = new string[rows - 1];
+                            tempList = new string[columns - 1];
                             PokemonTable.Type_Color[i - 1] = tempList;
                         }
+                        Debug.Log((string)(result.Tables[0].Rows[i][j]));
                         tempList[j - 1] = (string)(result.Tables[0].Rows[i][j]);
                     }
                 }

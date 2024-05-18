@@ -28,4 +28,10 @@ MonoBehaviour:
   specialATK: 60
   specialDef: 130
   speed: 65
-  allLearnableMoves: []
+  allLearnableMoves:
+  - learnableMoveBase: {fileID: 11400000, guid: 185ccc8da51d7244eb115b7a8def9d2e, type: 2}
+    level: 0
+    moveLearnedTypeEnum: 0
+  - learnableMoveBase: {fileID: 11400000, guid: a4c5a4c21289af3419eb1eb0ed5b22a0, type: 2}
+    level: 0
+    moveLearnedTypeEnum: 0

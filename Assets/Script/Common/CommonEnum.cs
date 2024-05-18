@@ -34,6 +34,14 @@ public enum BattleNumTypeEnum
     Three,
     Multiple,
 }
+
+public enum ActionTypeEnum
+{
+    Battle,
+    UseItem,
+    ReplacePokemon,
+    RunAway,
+}
 /******************Õ½¶·Ã¶¾ÙEnd**********************/
 public enum UITypeColorEnum
 {

@@ -128,7 +128,7 @@ public class Pokemon
             };
             return;
         }
-        if (curMoveCache.Capacity >= maxMoveSize)
+        if (curMoveCache.Count >= maxMoveSize)
         {
             ForgetMove(curMoveCache[0]);
             LearnedMove(move);
@@ -141,7 +141,7 @@ public class Pokemon
 
     public void LearnedMove(Move move)
     {
-        if (move != null && moveCache.Contains(move))
+        if (move != null && !moveCache.Contains(move))
         {
             if (curMoveCache == null)
                 curMoveCache = new List<Move>();

@@ -31,7 +31,7 @@ public class PokemonTable
     {
         if (Type_Color == null || Type_Color[index] == null || Type_Color[index].Length == 0)
         {
-            Debug.LogError("获取性格修正失败");
+            Debug.LogError("获取颜色失败");
             return "";
         }
         return Type_Color[index][(int)TypeColorEnum];
