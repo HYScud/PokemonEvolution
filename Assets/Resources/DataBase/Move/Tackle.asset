@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe55d3faa4481f48a0a5757acf409a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 1792c19f89fe69d49b3ca9f794dad56e, type: 3}
   m_Name: Tackle
   m_EditorClassIdentifier: 
-  moveId: 1
-  moveName: "\u649E\u51FB"
+  moveId: 0
+  moveName: 3
   maxPP: 56
   initialPP: 35
   moveType: 1
-  moveDesc: "\u649E\u51FB\uFF1A\u7528\u6574\u4E2A\u8EAB\u4F53\u649E\u5411\u5BF9\u624B\u8FDB\u884C\u653B\u51FB\u3002"
+  moveDesc: "\u653B\u51FB\u76EE\u6807\u9020\u6210\u4F24\u5BB3\u3002\r\n\r\n"
   power: 40
   accuracy: 100
   priority: 0

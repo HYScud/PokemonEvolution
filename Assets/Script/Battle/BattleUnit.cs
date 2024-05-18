@@ -77,7 +77,7 @@ public class BattleUnit : MonoBehaviour
             PokemonImage.sprite = Resources.Load<Sprite>(path);
         }
     }
-    void Start()
+    void Awake()
     {
         PokemonImage = GetComponent<Image>();
     }

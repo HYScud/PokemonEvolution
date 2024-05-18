@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BattleDialog : MonoBehaviour
 {
-    [SerializeField] int wordSpeed=15;
+    [SerializeField] int wordSpeed=20;
     [SerializeField] TextMeshProUGUI dialogText;
 
     public void SetDialogText(string paragraph)

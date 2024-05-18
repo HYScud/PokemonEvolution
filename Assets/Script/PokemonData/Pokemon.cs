@@ -42,6 +42,7 @@ public class Pokemon
     [SerializeField] int IV_SpecialDef = 0;
     [SerializeField] int IV_Speed = 0;
 
+    [SerializeField] StatusTypeEnum statusTypeEnum;
     public string Name
     {
         get { if (nickName == null || nickName == "") return pkBase.PokemonName; else return nickName; }
@@ -68,6 +69,7 @@ public class Pokemon
     public SexTypeEnum SexTypeEnum { get => sexTypeEnum; set => sexTypeEnum = value; }
 
     public ShinyTypeEnum ShinyType { get => shinyType; set => shinyType = value; }
+    public StatusTypeEnum StatusTypeEnum { get => statusTypeEnum; set => statusTypeEnum = value; }
 
     private int maxMoveSize = 4;
     public List<Move> GetCurMove()

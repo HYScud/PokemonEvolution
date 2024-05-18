@@ -2,21 +2,23 @@ public class Move
 {
     public Move(MoveBase moveBase, int curPP)
     {
-        this.moveBase = moveBase;
-        this.curPP = curPP;
+        this.MoveBase = moveBase;
+        this.CurPP = curPP;
     }
 
-    private MoveBase moveBase { get; set; }
+    private MoveBase moveBase;
 
-    private int curPP { get; set; }
+    private int curPP;
+    public MoveBase MoveBase { get => moveBase; set => moveBase = value; }
+    public int CurPP { get => curPP; set => curPP = value; }
 
     public override bool Equals(object obj)
     {
         Move target = obj as Move;
-        if (target == null || target.moveBase == null || moveBase == null)
+        if (target == null || target.MoveBase == null || MoveBase == null)
             return false;
         else
-            return moveBase.MoveId == target.moveBase.MoveId;
+            return MoveBase.MoveId == target.MoveBase.MoveId;
     }
 
     public override int GetHashCode()

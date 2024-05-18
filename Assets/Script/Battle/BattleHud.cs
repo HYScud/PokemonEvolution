@@ -1,4 +1,5 @@
 
+using NPOI.OpenXmlFormats.Spreadsheet;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,10 +12,36 @@ public class BattleHud : MonoBehaviour
     [SerializeField] TextMeshProUGUI LevelText;
     [SerializeField] TextMeshProUGUI HPText;
     [SerializeField] Image SexImage;
+    [SerializeField] Image StatusImage;
+    [SerializeField] Image Type1Image;
+    [SerializeField] Image Type2Image;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        var transfrom = transform.Find("Status") as Transform;
+        var type1 = transform.Find("TypeBox/Type1") as Transform;
+        var type2 = transform.Find("TypeBox/Type2") as Transform;
+        var sexImage= transform.Find("HudBox/InfoBox/SexImage") as Transform;
+        if (transfrom != null)
+            StatusImage = transfrom.gameObject.GetComponent<Image>();
+        else
+            Debug.Log("StatusImage is null");
+        if (type1 != null)
+        {
+            Type1Image = type1.gameObject.GetComponent<Image>();
+        }
+        else
+        {
+            Debug.Log("Type1Image is null");
+        }
+        if (type2 != null)
+        {
+            Type2Image = type2.gameObject.GetComponent<Image>();
+        }
+        else
+        {
+            Debug.Log("Type2Image is null");
+        }
     }
 
     // Update is called once per frame
@@ -29,6 +56,9 @@ public class BattleHud : MonoBehaviour
         SetExp(pokemon);
         SetName(pokemon);
         SetLevelText(pokemon);
+        SetStatus(pokemon.StatusTypeEnum);
+        SetType(pokemon);
+        SetPokemonSex(pokemon.SexTypeEnum);
     }
 
     public void SetLevelText(Pokemon pokemon)
@@ -101,6 +131,40 @@ public class BattleHud : MonoBehaviour
         }
     }
 
+    public void SetStatus(StatusTypeEnum status)
+    {
+        if (StatusImage != null)
+        {
+            string path = "UI/BattleUI/DIYUI/Status/";
+            switch (status)
+            {
+                case StatusTypeEnum.brn:
+                    path += "brn";
+                    break;
+                case StatusTypeEnum.frz:
+                    path += "frz";
+                    break;
+                case StatusTypeEnum.hyp:
+                    path += "hyp";
+                    break;
+                case StatusTypeEnum.par:
+                    path += "par";
+                    break;
+                case StatusTypeEnum.psn:
+                    path += "psn";
+                    break;
+                case StatusTypeEnum.slp:
+                    path += "slp";
+                    break;
+                default:
+                    break;
+            }
+            path += status.ToString();
+            Debug.Log(path);
+            StatusImage.sprite = Resources.Load<Sprite>(path);
+        }
+    }
+
     public void SetPokemonSex(SexTypeEnum sexType)
     {
         if (SexImage != null)
@@ -117,7 +181,31 @@ public class BattleHud : MonoBehaviour
                 case SexTypeEnum.Male:
                     SexImage.sprite = Resources.Load<Sprite>("UI/BattleUI/DIYUI/male");
                     break;
+                    default :
+                    SexImage.sprite = null;
+                    break;
             }
+        }
+    }
+
+    public void SetType(Pokemon pokemon)
+    {
+        if (pokemon != null && pokemon.pkBase)
+        {
+            string path1 = "UI/BattleUI/DIYUI/Icon/Pokemon_Type_Icon_";
+            string path2 = "UI/BattleUI/DIYUI/Icon/Pokemon_Type_Icon_";
+            if (Type1Image != null)
+            {
+                path1 += pokemon.pkBase.PokemonType1.ToString();
+                Type1Image.sprite = Resources.Load<Sprite>(path1);
+            }
+            if (Type2Image != null)
+            {
+                path2 += pokemon.pkBase.PokemonType2.ToString();
+                Type2Image.sprite = Resources.Load<Sprite>(path2);
+            }
+           
+            
         }
     }
 }

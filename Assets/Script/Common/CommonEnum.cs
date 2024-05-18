@@ -35,7 +35,12 @@ public enum BattleNumTypeEnum
     Multiple,
 }
 /******************战斗枚举End**********************/
-
+public enum UITypeColorEnum
+{
+    SYMBOL,
+    TYPE_NAME,
+    ATTACK,
+}
 /******************宝可梦枚举**********************/
 public enum PokemonTypeEnum
 {
@@ -66,7 +71,7 @@ public enum TypeEnum
     None,//无属性
     Normal,//一般
     Fighting,//格斗系
-    Fly,//飞行系
+    Flying,//飞行系
     Poison,//毒系
     Ground,//地系
     Rock,//岩石系
@@ -127,6 +132,16 @@ public enum CatchTypeEnum
     Wild,
     Egg,
     Gift
+}
+
+public enum StatusTypeEnum
+{
+    brn,
+    frz,
+    hyp,
+    par,
+    psn,
+    slp
 }
 /******************宝可梦枚举End**********************/
 

@@ -3,19 +3,22 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Grass
+  - Tree
+  - DialogPanel
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Foreground
+  - Grass
+  - DeepGrass
+  - Bulidings
+  - Character
   - 
   - 
   - 
@@ -40,4 +43,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3616016791
+    locked: 0
+  - name: Foreground
+    uniqueID: 120149069
+    locked: 0
+  - name: Grass
+    uniqueID: 2473679885
+    locked: 0
+  - name: Bulidings
+    uniqueID: 3565724043
+    locked: 0
+  - name: Character
+    uniqueID: 469202935
     locked: 0
