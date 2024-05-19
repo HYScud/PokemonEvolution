@@ -42,6 +42,23 @@ public enum ActionTypeEnum
     ReplacePokemon,
     RunAway,
 }
+public enum BattleStateTypeEnum
+{
+    None,
+    Start,
+    PlayerAction,
+    EnemyAction,
+    RunAction,
+    Busy,
+}
+public enum BattleInputEnum
+{
+    None = 0,
+    Next = 1,
+    Prev = -1,
+    Confirm = 2,
+
+}
 /******************Õ½¶·Ã¶¾ÙEnd**********************/
 public enum UITypeColorEnum
 {

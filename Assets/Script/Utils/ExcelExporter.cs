@@ -105,7 +105,6 @@ public class ReadExcel : MonoBehaviour
                             tempList = new string[columns - 1];
                             PokemonTable.Type_Color[i - 1] = tempList;
                         }
-                        Debug.Log((string)(result.Tables[0].Rows[i][j]));
                         tempList[j - 1] = (string)(result.Tables[0].Rows[i][j]);
                     }
                 }

@@ -12,18 +12,28 @@ public class BattleAction
 
     public BattleAction(Pokemon sourcePokemon, Pokemon targetPokemon, ActionTypeEnum actionType)
     {
-        this.sourcePokemon = sourcePokemon;
+        this.SourcePokemon = sourcePokemon;
         this.targetPokemon = targetPokemon;
+        this.actionType = actionType;
+    }
+
+    public BattleAction(Pokemon sourcePokemon, Pokemon targetPokemon, Move move, ActionTypeEnum actionType)
+    {
+        this.SourcePokemon = sourcePokemon;
+        this.targetPokemon = targetPokemon;
+        this.Move = move;
         this.actionType = actionType;
     }
 
     public BattleAction(Pokemon sourcePokemon, Pokemon targetPokemon, Move move, int useItemID, ActionTypeEnum actionType)
     {
-        this.sourcePokemon = sourcePokemon;
+        this.SourcePokemon = sourcePokemon;
         this.targetPokemon = targetPokemon;
-        this.move = move;
+        this.Move = move;
         this.useItemID = useItemID;
         this.actionType = actionType;
     }
 
+    public Pokemon SourcePokemon { get => sourcePokemon; private set => sourcePokemon = value; }
+    public Move Move { get => move; private set => move = value; }
 }

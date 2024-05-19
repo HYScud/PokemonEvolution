@@ -194,6 +194,19 @@ public class Pokemon
                 return 0;
         }
     }
+    public Move WildSelectMove()
+    {
+        var moveList = GetCurMove();
+        if (moveList != null & moveList.Count != 0)
+        {
+            var index = Random.Range(0, -1);
+            return moveList[index];
+        }
+        else
+        {
+            return null;
+        }
+    }
     /*初始化信息（一些没有在构造函数处理的）*/
     public void Init()
     {
