@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class Pokemon
@@ -7,7 +8,7 @@ public class Pokemon
 
     //基本信息
     private int level;
-    private long Id;//实际的id—>每个宝可梦都不同
+    private long pokemonId;//实际的id—>每个宝可梦都不同
     private long ownerId = 0;
     private int catchArea = 0;
     private CatchTypeEnum catchTypeEnum = CatchTypeEnum.None;
@@ -43,6 +44,8 @@ public class Pokemon
     [SerializeField] int IV_Speed = 0;
 
     [SerializeField] StatusTypeEnum statusTypeEnum;
+
+    [SerializeField] int criticalHit = 0;
     public string Name
     {
         get { if (nickName == null || nickName == "") return pkBase.PokemonName; else return nickName; }
@@ -54,10 +57,10 @@ public class Pokemon
 
     public int CurExp { get; set; }
 
-    public int MaxHp { get { if (pkBase.PokemonId == 292) { return 1; } else return Mathf.FloorToInt(((pkBase.Hp * 2 + IV_Hp + BasePoints_HP / 4) * Level) / 100f) + 10 + Level; } }
+    public int MaxHp { get { if (pkBase.PokemonBaseId == 292) { return 1; } else return Mathf.FloorToInt(((pkBase.Hp * 2 + IV_Hp + BasePoints_HP / 4) * Level) / 100f) + 10 + Level; } }
     public int Attack { get { return Mathf.FloorToInt((((pkBase.Attack * 2 + IV_Attack + BasePoints_ATk / 4) * Level) / 100f + 5 + Level) * PokemonTable.GetNatureEffect(2, natrueTypeEnum)); } }
     public int Defense { get { return Mathf.FloorToInt((((pkBase.Defence * 2 + IV_Defence + BasePoints_SPATk / 4) * Level) / 100f + 5 + Level) * PokemonTable.GetNatureEffect(2, natrueTypeEnum)); } }
-    public int SpecailAttack { get { return Mathf.FloorToInt((((pkBase.SpecialATK * 2 + IV_SpecialATK + BasePoints_Def / 4) * Level) / 100f + 5 + Level) * PokemonTable.GetNatureEffect(2, natrueTypeEnum)); } }
+    public int SpecialAttack { get { return Mathf.FloorToInt((((pkBase.SpecialATK * 2 + IV_SpecialATK + BasePoints_Def / 4) * Level) / 100f + 5 + Level) * PokemonTable.GetNatureEffect(2, natrueTypeEnum)); } }
     public int SpecialDefense { get { return Mathf.FloorToInt((((pkBase.SpecialDef * 2 + IV_SpecialDef + BasePoints_SPDef / 4) * Level) / 100f + 5 + Level) * PokemonTable.GetNatureEffect(2, natrueTypeEnum)); } }
     public int Speed { get { return Mathf.FloorToInt((((pkBase.Speed * 2 + IV_Speed + BasePoints_Speed / 4) * Level) / 100f + 5 + Level) * PokemonTable.GetNatureEffect(2, natrueTypeEnum)); } }
 
@@ -70,6 +73,16 @@ public class Pokemon
 
     public ShinyTypeEnum ShinyType { get => shinyType; set => shinyType = value; }
     public StatusTypeEnum StatusTypeEnum { get => statusTypeEnum; set => statusTypeEnum = value; }
+    public long PokemonId { get => pokemonId; }
+    public int CriticalHit
+    {
+        get
+        {
+            int[] hitLevel = new int[] { 24, 8, 2, 1 };
+            return hitLevel[criticalHit];
+        }
+        set => criticalHit = value;
+    }
 
     private int maxMoveSize = 4;
     public List<Move> GetCurMove()
@@ -94,7 +107,7 @@ public class Pokemon
                 var moveBase = learnableMove.LearnableMoveBase;
                 if (moveBase == null)
                 {
-                    Debug.LogError("moveBase is null pkbase.id:" + pkBase.PokemonId);
+                    Debug.LogError("moveBase is null pkbase.id:" + pkBase.PokemonBaseId);
                     continue;
                 }
                 Move move = new Move(moveBase, moveBase.InitialPP);
@@ -207,6 +220,72 @@ public class Pokemon
             return null;
         }
     }
+    public MoveResultEnum TakeDamage(Pokemon source, Move move)
+    {
+        float modifiers = Random.Range(0.85f, 1f);
+        bool bIsCriticalHit = false;
+        bIsCriticalHit = Mathf.FloorToInt(Random.Range(1, source.CriticalHit)) == 1;
+        var attck = 0;
+        var defense = 0;
+        switch (move.MoveBase.MoveTypeEnum)
+        {
+            case MoveTypeEnum.Special_Move:
+                attck = source.SpecialAttack;
+                defense = SpecialDefense;
+                break;
+            case MoveTypeEnum.Physical_Move:
+                attck = source.Attack;
+                defense = Defense;
+                break;
+        }
+        float typeEffect = PokemonTable.GetTypeEffect((int)move.MoveBase.MoveType, pkBase.PokemonType1);
+        float typeEffect2 = PokemonTable.GetTypeEffect((int)move.MoveBase.MoveType, pkBase.PokemonType2);
+        float sourceTypeEffect = (move.MoveBase.MoveType == source.pkBase.PokemonType1 || move.MoveBase.MoveType == source.pkBase.PokemonType2) ? 1.5f : 1f;
+        float hitRate = bIsCriticalHit ? 1.5f : 1f;
+        float damage = ((2f * source.Level + 10f) / 250f * ((float)attck / defense) * move.MoveBase.Power) * typeEffect * typeEffect2 * sourceTypeEffect * hitRate * modifiers;
+        if (damage > 0) damage = Mathf.Max(damage, 1);
+        damage=Mathf.FloorToInt(damage);
+        Debug.Log("伤害" + damage);
+        CurHp -= Mathf.FloorToInt(damage);
+        if (damage == 0)
+        {
+            return MoveResultEnum.NotEffective;
+        }
+        if (sourceTypeEffect > 1f)
+        {
+            if (bIsCriticalHit)
+            {
+                return MoveResultEnum.SuperEffective_CriticalHit;
+            }
+            else
+            {
+                return MoveResultEnum.SuperEffective;
+            }
+        }
+        else if (sourceTypeEffect < 1f && sourceTypeEffect > 0)
+        {
+            if (bIsCriticalHit)
+            {
+                return MoveResultEnum.NotVeryEffective_CriticalHit;
+            }
+            else
+            {
+                return MoveResultEnum.NotEffective;
+            }
+        }
+        else
+        {
+            if (bIsCriticalHit)
+            {
+                return MoveResultEnum.Effective_CriticalHit;
+            }
+            else
+            {
+                return MoveResultEnum.Effective;
+            }
+        }
+    }
+
     /*初始化信息（一些没有在构造函数处理的）*/
     public void Init()
     {
@@ -232,7 +311,7 @@ public class Pokemon
     {
         this.pkBase = pkBase ?? throw new System.ArgumentNullException(nameof(pkBase));
         this.Level = level;
-        Id = id;
+        pokemonId = id;
         this.ownerId = ownerId;
         this.catchArea = catchArea;
         this.catchTypeEnum = catchTypeEnum;
@@ -268,7 +347,7 @@ public class Pokemon
     {
         this.pkBase = pkBase ?? throw new System.ArgumentNullException(nameof(pkBase));
         this.Level = level;
-        Id = id;
+        pokemonId = id;
         this.ownerId = ownerId;
         this.catchArea = catchArea;
         this.catchTypeEnum = catchTypeEnum;
@@ -300,7 +379,7 @@ public class Pokemon
     {
         this.pkBase = pkBase ?? throw new System.ArgumentNullException(nameof(pkBase));
         this.Level = level;
-        Id = id;
+        pokemonId = id;
         CurHp = MaxHp;
         this.natrueTypeEnum = natrueTypeEnum;
     }
@@ -308,7 +387,7 @@ public class Pokemon
     {
         this.pkBase = pkBase ?? throw new System.ArgumentNullException(nameof(pkBase));
         this.Level = level;
-        Id = id;
+        pokemonId = id;
         this.ownerId = ownerId;
         CurHp = MaxHp;
         this.natrueTypeEnum = natrueTypeEnum;

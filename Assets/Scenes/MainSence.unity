@@ -36520,7 +36520,6 @@ GameObject:
   - component: {fileID: 1122930915}
   - component: {fileID: 1122930917}
   - component: {fileID: 1122930916}
-  - component: {fileID: 1122930918}
   - component: {fileID: 1122930919}
   m_Layer: 0
   m_Name: BattleEnemyUnit
@@ -36586,18 +36585,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122930914}
   m_CullTransparentMesh: 1
---- !u!114 &1122930918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122930914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99fd4f6b20620834c894eb6220694e94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1122930919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60019,7 +60006,6 @@ GameObject:
   - component: {fileID: 6787444470378072570}
   - component: {fileID: 7785166220598214052}
   - component: {fileID: 1119443584389668388}
-  - component: {fileID: 7785166220598214053}
   - component: {fileID: 7785166220598214054}
   m_Layer: 0
   m_Name: BattleOwnUnit
@@ -60997,18 +60983,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4218622994320185869}
   m_CullTransparentMesh: 1
---- !u!114 &7785166220598214053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4218622994320185869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99fd4f6b20620834c894eb6220694e94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7785166220598214054
 MonoBehaviour:
   m_ObjectHideFlags: 0

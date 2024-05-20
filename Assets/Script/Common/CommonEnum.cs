@@ -59,6 +59,39 @@ public enum BattleInputEnum
     Confirm = 2,
 
 }
+
+public enum BattleWeatherTypeEnum
+{
+    None,
+    Rain,
+    Heavy_Rain,
+    Sun,
+    Harsh_Sunlight,
+    Extremely_Harsh_Sunlight,
+    Hail,
+    Snow,
+    Sandstorm,
+    Strong_Winds,
+    Fog,
+    Strong_Sunlight,
+}
+public enum BattleTerrainTypeEnum 
+{
+    None = 0,
+    Psychic=1, 
+    Misty,
+    Grassy,
+}
+public enum MoveResultEnum
+{
+    Effective,
+    SuperEffective,
+    NotVeryEffective,
+    NotEffective,
+    Effective_CriticalHit,
+    SuperEffective_CriticalHit,
+    NotVeryEffective_CriticalHit
+}
 /******************Õ½¶·Ã¶¾ÙEnd**********************/
 public enum UITypeColorEnum
 {

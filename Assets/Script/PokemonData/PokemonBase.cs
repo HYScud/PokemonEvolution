@@ -5,7 +5,7 @@ using UnityEngine;
 public class PokemonBase : ScriptableObject
 {
     //基本信息
-    [SerializeField] int pokemonId;//宝可梦编号—>同一宝可梦相同
+    [SerializeField] int pokemonBaseId;//宝可梦编号—>同一宝可梦相同
     [SerializeField] string pokemonName;
     [SerializeField] TypeEnum pokemonType1 = TypeEnum.None;
     [SerializeField] TypeEnum pokemonType2 = TypeEnum.None;
@@ -26,7 +26,7 @@ public class PokemonBase : ScriptableObject
 
     [SerializeField] List<LearnableMove> allLearnableMoves;
 
-    public int PokemonId { get => pokemonId; }
+    public int PokemonBaseId { get => pokemonBaseId; }
     public string PokemonName { get => pokemonName; }
     public TypeEnum PokemonType1 { get => pokemonType1; }
     public TypeEnum PokemonType2 { get => pokemonType2; }

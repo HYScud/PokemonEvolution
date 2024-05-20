@@ -15,28 +15,28 @@ public class BattleUnit : MonoBehaviour
 
     public void Init()
     {
-        PokemonUnit = new Pokemon(pokemonUnitBase, level, Random.Range(0, 100), NatrueTypeEnum.Hardy);
+        PokemonUnit = new Pokemon(pokemonUnitBase, level, Random.Range(0, 10000000), NatrueTypeEnum.Hardy);
         string path = "UI/PokemonSprite/";
         if (bIsPlayer)
         {
             if (PokemonUnit.ShinyType == ShinyTypeEnum.None)
             {
-                path += "Back/" + PokemonUnit.pkBase.PokemonId;
+                path += "Back/" + PokemonUnit.pkBase.PokemonBaseId;
             }
             else
             {
-                path += "Back_Shiny/" + PokemonUnit.pkBase.PokemonId;
+                path += "Back_Shiny/" + PokemonUnit.pkBase.PokemonBaseId;
             }
         }
         else
         {
             if (PokemonUnit.ShinyType == ShinyTypeEnum.None)
             {
-                path += "Front/" + PokemonUnit.pkBase.PokemonId;
+                path += "Front/" + PokemonUnit.pkBase.PokemonBaseId;
             }
             else
             {
-                path += "Front_Shiny/" + PokemonUnit.pkBase.PokemonId;
+                path += "Front_Shiny/" + PokemonUnit.pkBase.PokemonBaseId;
             }
         }
         SetSprite(path);
@@ -49,22 +49,22 @@ public class BattleUnit : MonoBehaviour
         {
             if (pokemon.ShinyType == ShinyTypeEnum.None)
             {
-                path += "Back/" + pokemon.pkBase.PokemonId + "_0";
+                path += "Back/" + pokemon.pkBase.PokemonBaseId + "_0";
             }
             else
             {
-                path += "Back_Shiny/" + pokemon.pkBase.PokemonId + "_0";
+                path += "Back_Shiny/" + pokemon.pkBase.PokemonBaseId + "_0";
             }
         }
         else
         {
             if (pokemon.ShinyType == ShinyTypeEnum.None)
             {
-                path += "Front/" + pokemon.pkBase.PokemonId + "_0";
+                path += "Front/" + pokemon.pkBase.PokemonBaseId + "_0";
             }
             else
             {
-                path += "Front_Shiny/" + pokemon.pkBase.PokemonId + "_0";
+                path += "Front_Shiny/" + pokemon.pkBase.PokemonBaseId + "_0";
             }
         }
         SetSprite(path);

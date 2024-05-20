@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d45918d63248b94aab1cf65af747aff, type: 3}
   m_Name: Bulbasaur
   m_EditorClassIdentifier: 
-  pokemonId: 1
+  pokemonBaseId: 1
   pokemonName: "\u5999\u86D9\u79CD\u5B50"
   pokemonType1: 4
   pokemonType2: 12

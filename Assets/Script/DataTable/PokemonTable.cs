@@ -18,14 +18,14 @@ public class PokemonTable
         }
         return NatureChart[index, (int)natrueTypeEnum];
     }
-    public static float GetTypeEffect(int index, NatrueTypeEnum natrueTypeEnum)
+    public static float GetTypeEffect(int index, TypeEnum TypeEnum)
     {
         if (TypeChart == null || TypeChart[index] == null || TypeChart[index].Length == 0)
         {
             Debug.LogError("获取性格修正失败");
             return 0;
         }
-        return TypeChart[index][(int)natrueTypeEnum];
+        return TypeChart[index][(int)TypeEnum];
     }
     public static string GetTypeColorEffect(int index, UITypeColorEnum TypeColorEnum)
     {

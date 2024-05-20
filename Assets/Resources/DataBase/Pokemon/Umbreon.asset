@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d45918d63248b94aab1cf65af747aff, type: 3}
   m_Name: Umbreon
   m_EditorClassIdentifier: 
-  pokemonId: 197
+  pokemonBaseId: 197
   pokemonName: "\u6708\u4EAE\u4F0A\u5E03"
   pokemonType1: 17
   pokemonType2: 0

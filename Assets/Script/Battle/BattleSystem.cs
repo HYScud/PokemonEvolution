@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class BattleSystem : MonoBehaviour, EventObserver
 {
+    private BattleWeatherTypeEnum weatherTypeEnum = BattleWeatherTypeEnum.None;//天气
+    private BattleTerrainTypeEnum battleTerrainTypeEnum = BattleTerrainTypeEnum.None;//场地
     private BattleNumTypeEnum battleNumType;
     private BattleStateTypeEnum battleState = BattleStateTypeEnum.None;
     /*[SerializeField] List<BattleUnit> PlayerUnitList;
@@ -32,8 +34,6 @@ public class BattleSystem : MonoBehaviour, EventObserver
     private Pokemon CurActionPokemon;
 
     private List<BattleAction> AllAction;
-
-    private float timeDet = 0;
 
     private int curSelect = 0;
     private Transform SelectBtn = null;
@@ -227,7 +227,7 @@ public class BattleSystem : MonoBehaviour, EventObserver
         if (battleNumType == BattleNumTypeEnum.Single)
         {
             //TODO：后续可用AddActionToList方法
-            AllAction.Add(new BattleAction(playerUnit.PokemonUnit, enemyUnit.PokemonUnit, move, ActionTypeEnum.Battle));
+            AllAction.Add(new BattleAction(playerUnit.PokemonUnit, enemyUnit.PokemonUnit, move, ActionTypeEnum.Battle, true));
             WildAction();
         }
         else
@@ -242,7 +242,7 @@ public class BattleSystem : MonoBehaviour, EventObserver
         if (move != null)
         {
             //TODO:简化战斗（后续实际按CurActionPokemon为source，且需要全程交替改变CurActionPokemon）
-            AllAction.Add(new BattleAction(enemyUnit.PokemonUnit, playerUnit.PokemonUnit, move, ActionTypeEnum.Battle));
+            AllAction.Add(new BattleAction(enemyUnit.PokemonUnit, playerUnit.PokemonUnit, move, ActionTypeEnum.Battle, false));
             CheckForAcitionEnd();
         }
     }
@@ -253,9 +253,9 @@ public class BattleSystem : MonoBehaviour, EventObserver
         return enemyUnit.PokemonUnit;
     }
 
-    public void AddActionToList(Move move, Pokemon targetPokemon)
+    public void AddActionToList(Move move, Pokemon targetPokemon, bool bIsPlayer)
     {
-        AllAction.Add(new BattleAction(CurActionPokemon, targetPokemon, ActionTypeEnum.Battle));
+        AllAction.Add(new BattleAction(CurActionPokemon, targetPokemon, ActionTypeEnum.Battle, bIsPlayer));
     }
 
     public void CheckForAcitionEnd()
@@ -270,21 +270,111 @@ public class BattleSystem : MonoBehaviour, EventObserver
 
     public void OrderAction()
     {
+        Debug.Log("开始对操作进行排序");
         //重构排序逻辑
         AllAction.Sort((next, prev) =>
         {
             return next.SourcePokemon.Speed - prev.SourcePokemon.Speed;
         });
-        RunAction();
+        RunAllAction();
     }
 
-    public void RunAction()
+    /*开始battle，执行操作*/
+    public void RunAllAction()
     {
+        if(AllAction.Count == 0)
+        {
+            SwitchPanelShowOrHiden(enemyHud.gameObject, true);
+            BackToActionUI();
+            return;
+        }
+        Debug.Log("开始执行操作");
+        battleState = BattleStateTypeEnum.RunAction;
+        var battleAction = AllAction[0];
+        switch (battleAction.ActionType)
+        {
+            case ActionTypeEnum.Battle:
+                RunMoveAction(battleAction).Forget();
+                break;
+            default: break;
+        }
+    }
 
+    public async UniTaskVoid RunMoveAction(BattleAction battleAction)
+    {
+        HideAllPanel();
+        if (battleAction != null)
+        {
+            if (battleAction.BIsPlayer)
+            {
+                SwitchPanelShowOrHiden(enemyHud.gameObject, true);
+                SwitchPanelShowOrHiden(dialogText.gameObject, true);
+                await dialogText.SetDialogByWord($"{battleAction.SourcePokemon.Name}使用了{battleAction.Move.MoveBase.MoveName}");
+                //Player MoveAnimation
+                SwitchPanelShowOrHiden(dialogText.gameObject, false);
+                if (battleAction.Move.MoveBase.MoveTypeEnum == MoveTypeEnum.Status_Move)
+                {
+                    return;
+                }
+                else
+                {
+                    MoveResultEnum moveResultEnum = battleAction.TargetPokemon.TakeDamage(battleAction.SourcePokemon, battleAction.Move);
+                    await enemyHud.SetHpSmooth(battleAction.TargetPokemon);
+                    SwitchPanelShowOrHiden(dialogText.gameObject, true);
+                    switch (moveResultEnum)
+                    {
+                        case MoveResultEnum.Effective_CriticalHit:
+                            await dialogText.SetDialogByWord("命中要害");
+                            break;
+                        case MoveResultEnum.NotVeryEffective_CriticalHit:
+                            await dialogText.SetDialogByWord("命中要害");
+                            await dialogText.SetDialogByWord("效果不好");
+                            break;
+                        case MoveResultEnum.SuperEffective_CriticalHit:
+                            await dialogText.SetDialogByWord("命中要害");
+                            await dialogText.SetDialogByWord("效果把群");
+                            break;
+                        case MoveResultEnum.SuperEffective:
+                            await dialogText.SetDialogByWord("效果把群");
+                            break;
+                        case MoveResultEnum.NotVeryEffective:
+                            await dialogText.SetDialogByWord("效果不好");
+                            break;
+                        default:
+                            await dialogText.SetDialogByWord("没有效果");
+                            break;
+                    }
+                    SwitchPanelShowOrHiden(dialogText.gameObject, false);
+                }
+            }
+        }
+        AllAction.Remove(battleAction);
+        RunAllAction();
+    }
+    public int GetHurtDamage(BattleAction battleAction)
+    {
+        int damage = 0;
+
+        if (battleAction != null)
+        {
+
+        }
+        return damage;
+    }
+
+    public void HideAllPanel()
+    {
+        SwitchPanelShowOrHiden(dialogText.gameObject, false);
+        SwitchPanelShowOrHiden(BattleActionUISw, false);
+        SwitchPanelShowOrHiden(BattleMoveBox, false);
+        SwitchPanelShowOrHiden(playerHud.gameObject, false);
+        SwitchPanelShowOrHiden(enemyHud.gameObject, false);
     }
 
     public void BackToActionUI()
     {
+        SwitchPanelShowOrHiden(playerHud.gameObject, true);
+        SwitchPanelShowOrHiden(enemyHud.gameObject, true);
         SwitchPanelShowOrHiden(dialogText.gameObject, false);
         SwitchPanelShowOrHiden(BattleActionUISw, true);
         SwitchPanelShowOrHiden(BattleMoveBox, false);
@@ -299,7 +389,7 @@ public class BattleSystem : MonoBehaviour, EventObserver
         }
         else
         {
-            Debug.Log("BattleSystem TTransform is null");
+            Debug.LogFormat("BattleSystem TTransform：{0} is null");
         }
     }
 }

@@ -1,4 +1,5 @@
 
+using Cysharp.Threading.Tasks;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using TMPro;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class BattleHud : MonoBehaviour
         var transfrom = transform.Find("Status") as Transform;
         var type1 = transform.Find("TypeBox/Type1") as Transform;
         var type2 = transform.Find("TypeBox/Type2") as Transform;
-        var sexImage= transform.Find("HudBox/InfoBox/SexImage") as Transform;
+        var sexImage = transform.Find("HudBox/InfoBox/SexImage") as Transform;
         if (transfrom != null)
             StatusImage = transfrom.gameObject.GetComponent<Image>();
         else
@@ -82,15 +83,44 @@ public class BattleHud : MonoBehaviour
     {
         if (pokemon != null)
         {
-            if (HpBar != null)
-            {
-                HpBar.size = pokemon.CurHp / pokemon.MaxHp;
-            }
-            if (HPText != null)
-            {
-                HPText.text = string.Format("{0}/{1}", pokemon.CurHp, pokemon.MaxHp);
-            }
+            SetHPBar((float)pokemon.CurHp / pokemon.MaxHp);
+            string curHpText = string.Format("{0}/{1}", pokemon.CurHp, pokemon.MaxHp);
+            SetHPText(curHpText);
         }
+    }
+
+    private void SetHPText(string curHpText)
+    {
+        if (HPText != null)
+        {
+            HPText.text = curHpText;
+        }
+    }
+
+    public void SetHPBar(float HpRatio)
+    {
+        if (HpBar != null)
+        {
+            HpBar.size = HpRatio;
+        }
+    }
+
+    public async UniTask<bool> SetHpSmooth(Pokemon pokemon)
+    {
+        float newRatio = (float)pokemon.CurHp / pokemon.MaxHp;
+        float curRatio = HpBar.size;
+        float detalHP = 1f;
+
+        while (curRatio - newRatio > Mathf.Epsilon)
+        {
+            Debug.LogFormat("¥Ú”°≤Ó÷µ{0}£¨{1}",curRatio - newRatio, Mathf.Epsilon);
+            curRatio -= newRatio * detalHP / pokemon.MaxHp;
+            SetHPBar(curRatio);
+            string curHpText = string.Format("{0}/{1}", Mathf.FloorToInt(curRatio * pokemon.MaxHp), pokemon.MaxHp);
+            SetHPText(curHpText);
+            await UniTask.WaitForSeconds(1);
+        }
+        return true;
     }
 
     public float GetCurEXPRatio()
@@ -181,7 +211,7 @@ public class BattleHud : MonoBehaviour
                 case SexTypeEnum.Male:
                     SexImage.sprite = Resources.Load<Sprite>("UI/BattleUI/DIYUI/male");
                     break;
-                    default :
+                default:
                     SexImage.sprite = null;
                     break;
             }
@@ -204,8 +234,8 @@ public class BattleHud : MonoBehaviour
                 path2 += pokemon.pkBase.PokemonType2.ToString();
                 Type2Image.sprite = Resources.Load<Sprite>(path2);
             }
-           
-            
+
+
         }
     }
 }
