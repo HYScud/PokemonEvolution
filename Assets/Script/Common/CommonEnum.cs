@@ -92,6 +92,14 @@ public enum MoveResultEnum
     SuperEffective_CriticalHit,
     NotVeryEffective_CriticalHit
 }
+
+public enum BattleRoundEndTypeEnum
+{
+    None,
+    Own_Win,
+    Target_Win,
+}
+
 /******************Õ½¶·Ã¶¾ÙEnd**********************/
 public enum UITypeColorEnum
 {

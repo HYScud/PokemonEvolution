@@ -108,17 +108,16 @@ public class BattleHud : MonoBehaviour
     public async UniTask<bool> SetHpSmooth(Pokemon pokemon)
     {
         float newRatio = (float)pokemon.CurHp / pokemon.MaxHp;
-        float curRatio = HpBar.size;
-        float detalHP = 1f;
-
-        while (curRatio - newRatio > Mathf.Epsilon)
+        float detalRatio = 0.005f;
+        float curRatio = CommonUtils.NormalizeFloat(HpBar.size);
+        Debug.LogFormat("*cur:{0},new:{1} detal:{2}start*",curRatio, newRatio,CommonUtils.NormalizeFloat(curRatio - newRatio));
+        while (CommonUtils.NormalizeFloat(curRatio - newRatio, 1000f) > 0.00f)
         {
-            Debug.LogFormat("¥Ú”°≤Ó÷µ{0}£¨{1}",curRatio - newRatio, Mathf.Epsilon);
-            curRatio -= newRatio * detalHP / pokemon.MaxHp;
+            curRatio = CommonUtils.NormalizeFloat(curRatio - detalRatio,1000f);
             SetHPBar(curRatio);
             string curHpText = string.Format("{0}/{1}", Mathf.FloorToInt(curRatio * pokemon.MaxHp), pokemon.MaxHp);
             SetHPText(curHpText);
-            await UniTask.WaitForSeconds(1);
+            await UniTask.NextFrame();
         }
         return true;
     }

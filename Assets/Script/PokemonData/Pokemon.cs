@@ -247,6 +247,10 @@ public class Pokemon
         damage=Mathf.FloorToInt(damage);
         Debug.Log("伤害" + damage);
         CurHp -= Mathf.FloorToInt(damage);
+        if (CurHp <= 0)
+        {
+            CurHp = 0;
+        }
         if (damage == 0)
         {
             return MoveResultEnum.NotEffective;
@@ -284,6 +288,7 @@ public class Pokemon
                 return MoveResultEnum.Effective;
             }
         }
+        
     }
 
     /*初始化信息（一些没有在构造函数处理的）*/

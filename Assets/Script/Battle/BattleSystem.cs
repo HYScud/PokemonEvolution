@@ -274,7 +274,7 @@ public class BattleSystem : MonoBehaviour, EventObserver
         //重构排序逻辑
         AllAction.Sort((next, prev) =>
         {
-            return next.SourcePokemon.Speed - prev.SourcePokemon.Speed;
+            return prev.SourcePokemon.Speed - next.SourcePokemon.Speed;
         });
         RunAllAction();
     }
@@ -282,7 +282,7 @@ public class BattleSystem : MonoBehaviour, EventObserver
     /*开始battle，执行操作*/
     public void RunAllAction()
     {
-        if(AllAction.Count == 0)
+        if (AllAction.Count == 0)
         {
             SwitchPanelShowOrHiden(enemyHud.gameObject, true);
             BackToActionUI();
@@ -305,63 +305,82 @@ public class BattleSystem : MonoBehaviour, EventObserver
         HideAllPanel();
         if (battleAction != null)
         {
-            if (battleAction.BIsPlayer)
+            BattleHud targetHud = battleAction.BIsPlayer ? enemyHud : playerHud;
+            //BattleHud sourceHud = !battleAction.BIsPlayer ? enemyHud : playerHud;
+            SwitchPanelShowOrHiden(dialogText.gameObject, true);
+            await dialogText.SetDialogByWord($"{battleAction.SourcePokemon.Name}使用了{battleAction.Move.MoveBase.MoveName}");
+            //Player MoveAnimation
+            SwitchPanelShowOrHiden(dialogText.gameObject, false);
+            if (battleAction.Move.MoveBase.MoveTypeEnum == MoveTypeEnum.Status_Move)
             {
-                SwitchPanelShowOrHiden(enemyHud.gameObject, true);
-                SwitchPanelShowOrHiden(dialogText.gameObject, true);
-                await dialogText.SetDialogByWord($"{battleAction.SourcePokemon.Name}使用了{battleAction.Move.MoveBase.MoveName}");
-                //Player MoveAnimation
-                SwitchPanelShowOrHiden(dialogText.gameObject, false);
-                if (battleAction.Move.MoveBase.MoveTypeEnum == MoveTypeEnum.Status_Move)
-                {
-                    return;
-                }
-                else
-                {
-                    MoveResultEnum moveResultEnum = battleAction.TargetPokemon.TakeDamage(battleAction.SourcePokemon, battleAction.Move);
-                    await enemyHud.SetHpSmooth(battleAction.TargetPokemon);
-                    SwitchPanelShowOrHiden(dialogText.gameObject, true);
-                    switch (moveResultEnum)
-                    {
-                        case MoveResultEnum.Effective_CriticalHit:
-                            await dialogText.SetDialogByWord("命中要害");
-                            break;
-                        case MoveResultEnum.NotVeryEffective_CriticalHit:
-                            await dialogText.SetDialogByWord("命中要害");
-                            await dialogText.SetDialogByWord("效果不好");
-                            break;
-                        case MoveResultEnum.SuperEffective_CriticalHit:
-                            await dialogText.SetDialogByWord("命中要害");
-                            await dialogText.SetDialogByWord("效果把群");
-                            break;
-                        case MoveResultEnum.SuperEffective:
-                            await dialogText.SetDialogByWord("效果把群");
-                            break;
-                        case MoveResultEnum.NotVeryEffective:
-                            await dialogText.SetDialogByWord("效果不好");
-                            break;
-                        default:
-                            await dialogText.SetDialogByWord("没有效果");
-                            break;
-                    }
-                    SwitchPanelShowOrHiden(dialogText.gameObject, false);
-                }
+                Debug.Log("使用状态技能");
             }
+            else
+            {
+                SwitchPanelShowOrHiden(targetHud.gameObject, true);
+                MoveResultEnum moveResultEnum = battleAction.TargetPokemon.TakeDamage(battleAction.SourcePokemon, battleAction.Move);
+                await targetHud.SetHpSmooth(battleAction.TargetPokemon);
+                await UniTask.WaitForSeconds(0.5f);
+                SwitchPanelShowOrHiden(targetHud.gameObject, false);
+                SwitchPanelShowOrHiden(dialogText.gameObject, true);
+                switch (moveResultEnum)
+                {
+                    case MoveResultEnum.Effective_CriticalHit:
+                        await dialogText.SetDialogByWord("命中要害");
+                        break;
+                    case MoveResultEnum.NotVeryEffective_CriticalHit:
+                        await dialogText.SetDialogByWord("命中要害");
+                        await dialogText.SetDialogByWord("效果不好");
+                        break;
+                    case MoveResultEnum.SuperEffective_CriticalHit:
+                        await dialogText.SetDialogByWord("命中要害");
+                        await dialogText.SetDialogByWord("效果把群");
+                        break;
+                    case MoveResultEnum.SuperEffective:
+                        await dialogText.SetDialogByWord("效果把群");
+                        break;
+                    case MoveResultEnum.NotVeryEffective:
+                        await dialogText.SetDialogByWord("效果不好");
+                        break;
+                    case MoveResultEnum.NotEffective:
+                        await dialogText.SetDialogByWord("没有效果");
+                        break;
+                    default:
+                        await dialogText.SetDialogByWord("有效果");
+                        break;
+                }
+                await UniTask.WaitForSeconds(0.5f);
+                SwitchPanelShowOrHiden(dialogText.gameObject, false);
+            }
+        }
+        BattleRoundEndTypeEnum isBattleEnd = CheckForBattleEnd();
+        if(isBattleEnd != BattleRoundEndTypeEnum.None)
+        {
+            BattleEnd();
+            return;
         }
         AllAction.Remove(battleAction);
         RunAllAction();
     }
-    public int GetHurtDamage(BattleAction battleAction)
+    BattleRoundEndTypeEnum CheckForBattleEnd()
     {
-        int damage = 0;
-
-        if (battleAction != null)
+        if(enemyUnit.PokemonUnit.CurHp<=0)
         {
-
+            return BattleRoundEndTypeEnum.Own_Win;
         }
-        return damage;
+        else if(playerUnit.PokemonUnit.CurHp<=0)
+        {
+            return BattleRoundEndTypeEnum.Target_Win;
+        }
+        else
+        {
+            return BattleRoundEndTypeEnum.None;
+        }
     }
-
+    void BattleEnd()
+    {
+        Debug.Log("战斗结束");
+    }
     public void HideAllPanel()
     {
         SwitchPanelShowOrHiden(dialogText.gameObject, false);

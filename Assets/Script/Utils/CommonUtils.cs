@@ -103,4 +103,8 @@ public class CommonUtils
     {
         return CommonUtils.GetExpByLevel(level + 1, expTypeEnum) - CommonUtils.GetExpByLevel(level, expTypeEnum);
     }
+    public static float NormalizeFloat(float num, float bitNum = 1000f)
+    {
+        return Mathf.Round(num * bitNum ) / bitNum;
+    }
 }

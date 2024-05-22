@@ -40,7 +40,7 @@ public class BattleDialog : MonoBehaviour
             AddDialogText(item);
             await UniTask.WaitForSeconds(1f/wordSpeed);
         }
-        await UniTask.WaitForSeconds(0.2f);
+        await UniTask.WaitForSeconds(0.5f);
         return true;
     }
 

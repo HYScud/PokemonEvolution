@@ -29,12 +29,6 @@ MonoBehaviour:
   specialDef: 65
   speed: 45
   allLearnableMoves:
-  - learnableMoveBase: {fileID: 11400000, guid: 92c662fdfb536c24db2d7798a97971f7, type: 2}
-    level: 0
-    moveLearnedTypeEnum: 0
   - learnableMoveBase: {fileID: 11400000, guid: a4c5a4c21289af3419eb1eb0ed5b22a0, type: 2}
-    level: 0
-    moveLearnedTypeEnum: 0
-  - learnableMoveBase: {fileID: 11400000, guid: 5a340ef20df7a884294ff6958ac5f16b, type: 2}
     level: 0
     moveLearnedTypeEnum: 0

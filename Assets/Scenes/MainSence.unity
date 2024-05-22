@@ -36598,7 +36598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pokemonUnitBase: {fileID: 11400000, guid: b8fd86a94be58b044b901c654d4d200d, type: 2}
-  level: 11
+  level: 5
   PokemonImage: {fileID: 1122930916}
   bIsPlayer: 0
 --- !u!1 &1130126885
@@ -60591,8 +60591,8 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6594470945772682986}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.2
-  m_NumberOfSteps: 0
+  m_Size: 0
+  m_NumberOfSteps: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -60996,7 +60996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pokemonUnitBase: {fileID: 11400000, guid: aa5bde154bc6b924d92b36a72e49d47c, type: 2}
-  level: 4
+  level: 10
   PokemonImage: {fileID: 0}
   bIsPlayer: 1
 --- !u!222 &7861862367416817216
