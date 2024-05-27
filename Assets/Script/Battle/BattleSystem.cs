@@ -318,6 +318,7 @@ public class BattleSystem : MonoBehaviour, EventObserver
             else
             {
                 SwitchPanelShowOrHiden(targetHud.gameObject, true);
+                await UniTask.WaitForSeconds(0.3f);
                 MoveResultEnum moveResultEnum = battleAction.TargetPokemon.TakeDamage(battleAction.SourcePokemon, battleAction.Move);
                 await targetHud.SetHpSmooth(battleAction.TargetPokemon);
                 await UniTask.WaitForSeconds(0.5f);
